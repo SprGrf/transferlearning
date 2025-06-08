@@ -1,3 +1,43 @@
+# FIXED: Frustratingly Easy Domain Generalization with Mixup
+
+Fork of the original repository (https://github.com/jindongwang/transferlearning), used for evaluation purposes during my Realistic HAR Master Thesis. Please follow the link to the original repository. This repo contains many different architectures, navigate to _code/deep/fixed_ for the one we used. 
+
+Original paper citation:
+```
+@article{lu2022fixed,
+  title={FIXED: Frustratingly Easy Domain Generalization with Mixup},
+  author={Lu, Wang and Wang, Jindong and Yu, Han and Huang, Lei and Zhang, Xiang and Chen, Yiqiang and Xie, Xing},
+  journal={arXiv preprint arXiv:2211.05228},
+  year={2022}
+}
+```
+
+### Installation
+
+Create a python virtual environment using the provided _requirements.txt_. 
+
+### Train
+
+Use the _train_cv.sh_ bash script to train the models for all 7 datasets. The basic command can also be used on its own: 
+
+```sh
+python -u train.py --N_WORKERS 1 --data_dir ./dataset/ --task cross_people --test_envs 1 --dataset HHAR --algorithm Fixed --mixupalpha 0.1 --alpha 0.5 --mixup_ld_margin 10 --top_k 5 --output ./results/cv_HHAR --class_balanced 1
+```
+Make sure to replace the _data_dir_ argument with the path of your preprocessed dataset files. 
+
+### Evaluation
+
+Use the _evaluate.sh_ bash script to evaluate the models for all subcases. The basic command can also be used on its own: 
+
+```sh
+python -u evaluate.py --N_WORKERS 1 --data_dir ./dataset/ --task cross_people --test_envs 1 --dataset HHAR --algorithm Fixed --mixupalpha 0.1 --alpha 0.5 --mixup_ld_margin 10 --top_k 5 --output ./results/cv_HHAR --class_balanced 1 --mode cv
+```
+Again, make sure to replace the _data_dir_ argument with the path of your preprocessed dataset files, and also to pick the right _mode_ (_cv_ or _d2d_test_). 
+
+_ _ _
+_ _ _
+_ _ _
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
