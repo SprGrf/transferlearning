@@ -84,7 +84,7 @@ def split_trian_val_test(args, da, rate=0.8):
 def make_weights_for_balanced_classes(dataset):
     counts = Counter()
     classes = []
-    for _, y, _, _, _, _ in dataset:
+    for _, y, _, _ in dataset:
         y = int(y)
         counts[y] += 1
         classes.append(y)

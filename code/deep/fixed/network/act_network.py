@@ -6,6 +6,41 @@ var_size = {
         'in_size': 6,
         'ker_size': 6,
         'fc_size': 32*46
+    },
+    'C24':{
+        'in_size': 3,
+        'ker_size': 3,
+        'fc_size': 32*29
+    },
+    'MHEALTH':{
+        'in_size': 3,
+        'ker_size': 3,
+        'fc_size': 32*29
+    },
+    'GOTOV':{
+        'in_size': 3,
+        'ker_size': 3,
+        'fc_size': 32*29
+    },
+    'HHAR':{
+        'in_size': 3,
+        'ker_size': 3,
+        'fc_size': 32*29
+    },
+    'DSA':{
+        'in_size': 3,
+        'ker_size': 3,
+        'fc_size': 32*29
+    },
+    'selfBACK':{
+        'in_size': 3,
+        'ker_size': 3,
+        'fc_size': 32*29
+    },
+    'PAMAP2':{
+        'in_size': 3,
+        'ker_size': 3,
+        'fc_size': 32*29
     }
 }
 

@@ -20,8 +20,10 @@ class Fixed(Algorithm):
             self.featurizer.in_features, args.bottleneck, args.layer)
         self.classifier = common_network.feat_classifier(
             args.num_classes, args.bottleneck, args.classifier)
+        print("discriminator size", args.domain_num)
         self.discriminator = Adver_network.Discriminator(
-            args.bottleneck, args.dis_hidden, args.domain_num-len(args.test_envs))
+            args.bottleneck, args.dis_hidden, args.domain_num)
+     
         self.args = args
         self.criterion = LargeMarginLoss(
             self.args.mixup_ld_margin, top_k=self.args.top_k, loss_type=self.args.ldmarginlosstype, reduce='none')
@@ -39,6 +41,10 @@ class Fixed(Algorithm):
         disc_labels = torch.cat([data[2].cuda().long()
                                 for data in minibatches])
 
+        # print("disc out is", len(disc_out))
+        # print(disc_out)
+        # print("disc label is", len(disc_labels))
+        # print(disc_labels)
         disc_loss = F.cross_entropy(disc_out, disc_labels)
 
         lam = np.random.beta(self.args.mixupalpha, self.args.mixupalpha)
@@ -58,3 +64,21 @@ class Fixed(Algorithm):
 
     def predict(self, x):
         return self.classifier(self.bottleneck(self.featurizer(x)))
+
+
+    def save(self, path):
+        torch.save({
+            'featurizer': self.featurizer.state_dict(),
+            'bottleneck': self.bottleneck.state_dict(),
+            'classifier': self.classifier.state_dict(),
+            'discriminator': self.discriminator.state_dict()
+        }, path)
+        print(f"Model saved to {path}")
+
+    def load(self, path):
+        checkpoint = torch.load(path, map_location='cuda' if torch.cuda.is_available() else 'cpu')
+        self.featurizer.load_state_dict(checkpoint['featurizer'])
+        self.bottleneck.load_state_dict(checkpoint['bottleneck'])
+        self.classifier.load_state_dict(checkpoint['classifier'])
+        # self.discriminator.load_state_dict(checkpoint['discriminator'])
+        print(f"Model loaded from {path}")
